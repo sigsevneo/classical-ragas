@@ -1,11 +1,77 @@
-{% extends "base.html" %}
+{% load staticfiles %}
+{% load static wagtailcore_tags %}
 
-{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
 
-{% block content %}
-    <h1>Welcome to your new Wagtail site!</h1>
+<!-- your webpage info goes here -->
 
-    <p>You can access the admin interface <a href="{% url 'wagtailadmin_home' %}">here</a> (make sure you have run "./manage.py createsuperuser" in the console first).
+    <title>Classical Ragas</title>
+	
+	<meta name="author" content="your name" />
+	<meta name="description" content="" />
 
-    <p>If you haven't already given the documentation a read, head over to <a href="http://wagtail.readthedocs.org/">http://wagtail.readthedocs.org</a> to start building on Wagtail</p>
-{% endblock %}
+<!-- you should always add your stylesheet (css) in the head tag so that it startss loading before the page html is being displayed -->	
+	<link rel="stylesheet" type="text/css" href="{% static 'css/classicalRagas.css' %}" />
+	
+</head>
+<body>
+
+<!-- webpage content goes here in the body -->
+
+	<div id="page">
+		
+		<div id="nav">
+			<ul>
+				<li><a href="#/home.html">Home</a></li>
+				<li><a href="#/about.html">About</a></li>
+				<li><a href="#/contact.html">Contact</a></li>
+			</ul>	
+		</div>
+
+		<div id="logo">
+			<h1><a href="/" id="logoLink">Classical Ragas</a></h1>
+		</div>
+		
+		<div id="content">
+			{% block content %}
+			    <h1>Search</h1>
+
+			    <form action="{% url 'search' %}" method="get">
+			        <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+			        <input type="submit" value="Search">
+			    </form>
+
+			    {% if search_results %}
+			        <ul>
+			            {% for result in search_results %}
+			                <li>
+			                    <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
+			                    {% if result.search_description %}
+			                        {{ result.search_description|safe }}
+			                    {% endif %}
+			                </li>
+			            {% endfor %}
+			        </ul>
+
+			        {% if search_results.has_previous %}
+			            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
+			        {% endif %}
+
+			        {% if search_results.has_next %}
+			            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
+			        {% endif %}
+			    {% elif search_query %}
+			        No results found
+			    {% endif %}
+			{% endblock %}
+		</div>
+		<div id="footer">
+			<p>
+				ClassicalRagas Limited
+			</p>
+		</div>
+	</div>
+</body>
+</html>
