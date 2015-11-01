@@ -33,7 +33,7 @@ body {
 
 /* or on different lines like below */
 #logo{
-	/*font-size: 1.9em;*/
+	font-size: 40px;
 	width: 35%;
 	margin-top: 5px;
 	font-family: georgia;
