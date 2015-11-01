@@ -25,51 +25,40 @@
 		<div id="nav">
 			<ul>
 				<li><a href="#/home.html">Home</a></li>
-				<li><a href="#/about.html">About</a></li>
+				<li><a href="home/templates/home/about.html">About</a></li>
 				<li><a href="#/contact.html">Contact</a></li>
 			</ul>	
 		</div>
 
 		<div id="logo">
-			<h1><a href="/" id="logoLink">Classical Ragas</a></h1>
+			<h1><a href="/" id="logoLink">Raga Finder</a></h1>
 		</div>
 		
-		<div id="content">
-			{% block content %}
-			    <h1>Search</h1>
 
-			    <form action="{% url 'search' %}" method="get">
-			        <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-			        <input type="submit" value="Search">
-			    </form>
+		<ul class="nav">
+		    <li>
+		        <a href="#">Home</a>
+		    </li>
+		    <li id="search">
+		        <form action="" method="get">
+		            <input type="text" name="search_text" id="search_text" placeholder="Search"/>
+		            <input type="button" name="search_button" id="search_button"></a>
+		        </form>
+		    </li>
+		    <li id="options">
+		        <a href="#">Options</a>
+		        <ul class="subnav">
+		            <li><a href="#">Music</a></li>
+		            <li><a href="#">Composer</a></li>
+		            <li><a href="#">Ragas</a></li>
+		            <li><a href="#">Talas</a></li>
+		        </ul>
+		    </li>
+		</ul>
 
-			    {% if search_results %}
-			        <ul>
-			            {% for result in search_results %}
-			                <li>
-			                    <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
-			                    {% if result.search_description %}
-			                        {{ result.search_description|safe }}
-			                    {% endif %}
-			                </li>
-			            {% endfor %}
-			        </ul>
-
-			        {% if search_results.has_previous %}
-			            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
-			        {% endif %}
-
-			        {% if search_results.has_next %}
-			            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
-			        {% endif %}
-			    {% elif search_query %}
-			        No results found
-			    {% endif %}
-			{% endblock %}
-		</div>
 		<div id="footer">
 			<p>
-				ClassicalRagas Limited
+				&copy ClassicalRagas Limited
 			</p>
 		</div>
 	</div>
